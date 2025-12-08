@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: product
+  mongodb:
+    host: "localhost"
+    port: 27017
+    database: "test"
+    username: "admin"
+    password: "admin"
+    authentication-database: "admin"
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/realms/clownstore/protocol/openid-connect/certs
+server:
+  port: 8081
+
