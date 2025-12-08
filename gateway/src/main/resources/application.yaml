@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: gateway
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: spring-security-keycloak
+            client-secret: ${SECRET}
+            scope: openid
+            authorization-grant-type: authorization_code
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:9000/realms/clownstore
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/realms/clownstore/protocol/openid-connect/certs
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: cart
+              uri: http://localhost:8082
+              predicates:
+                - Path=/hi
+              filters:
+                - TokenRelay=
+            - id: product
+              uri: http://localhost:8081
+              predicates:
+                - Path=/product/**
+              filters:
+                - TokenRelay=
