@@ -1,4 +1,4 @@
-package com.clownstore.cart.config;
+package com.clownstore.cart.feign;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

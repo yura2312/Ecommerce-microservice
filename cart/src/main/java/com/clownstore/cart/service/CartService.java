@@ -2,8 +2,8 @@ package com.clownstore.cart.service;
 
 import com.clownstore.cart.dto.ProductResponse;
 import com.clownstore.cart.exception.CartNotFoundException;
-import com.clownstore.cart.exception.NotEnoughStock;
-import com.clownstore.cart.exception.ProductNotFound;
+import com.clownstore.cart.exception.NotEnoughStockException;
+import com.clownstore.cart.exception.ProductNotFoundException;
 import com.clownstore.cart.mapper.CartItemMapper;
 import com.clownstore.cart.model.Cart;
 import com.clownstore.cart.repository.CartRepository;
@@ -39,11 +39,11 @@ public class CartService {
     public Cart addToCart(String userid, String productId, int quantity) {
         ProductResponse product = productClient.getProduct(productId);
         if (product == null) {
-            throw new ProductNotFound("Product not found");
+            throw new ProductNotFoundException("Product not found");
         }
 
         if (product.stock() < quantity) {
-            throw new NotEnoughStock("Quantity is higher than stock availability");
+            throw new NotEnoughStockException("Quantity is higher than stock availability");
         }
 
         Cart cart = repository.findById(userid)
