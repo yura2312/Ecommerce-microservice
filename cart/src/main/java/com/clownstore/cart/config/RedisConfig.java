@@ -1,4 +1,4 @@
-package com.clownstore.cart.controller;
+package com.clownstore.cart.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

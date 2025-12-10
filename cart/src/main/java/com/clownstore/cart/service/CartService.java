@@ -2,6 +2,7 @@ package com.clownstore.cart.service;
 
 import com.clownstore.cart.dto.ProductResponse;
 import com.clownstore.cart.exception.CartNotFoundException;
+import com.clownstore.cart.exception.NotEnoughStock;
 import com.clownstore.cart.exception.ProductNotFound;
 import com.clownstore.cart.mapper.CartItemMapper;
 import com.clownstore.cart.model.Cart;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class CartService {
@@ -29,8 +31,8 @@ public class CartService {
         this.template = redisTemplate;
     }
 
-    public Cart find(String id) {
-        return repository.findById(id)
+    public Cart findById(String userId) {
+        return repository.findById(userId)
                 .orElseThrow(() -> new CartNotFoundException("Cart not found"));
     }
 
@@ -41,7 +43,7 @@ public class CartService {
         }
 
         if (product.stock() < quantity) {
-            throw new RuntimeException("haha"); //TODO: create exception
+            throw new NotEnoughStock("Quantity is higher than stock availability");
         }
 
         Cart cart = repository.findById(userid)
@@ -65,5 +67,9 @@ public class CartService {
         cart.setTotal(total);
 
         return repository.save(cart);
+    }
+
+    public List<Cart> findAll(){
+        return (List<Cart>) repository.findAll();
     }
 }
