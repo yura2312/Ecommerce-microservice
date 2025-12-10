@@ -1,7 +1,6 @@
 package com.clownstore.product.controller;
 
 import com.clownstore.product.model.Product;
-import com.clownstore.product.repository.ProductRepository;
 import com.clownstore.product.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ public class MainController {
 
     ProductService service;
 
-    public MainController(ProductService service){
+    public MainController(ProductService service) {
         this.service = service;
     }
 
@@ -25,7 +24,7 @@ public class MainController {
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/")
+    @PostMapping("/")
     public ResponseEntity<Product> save(@RequestBody @Valid Product productRequest) {
         var product = service.save(productRequest);
         return ResponseEntity.ok(product);
@@ -37,19 +36,20 @@ public class MainController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<List<Product>> findAll() {
         var productList = service.findAll();
         return ResponseEntity.ok(productList);
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Product> findById(@PathVariable String id){
+    @GetMapping("/")
+    public ResponseEntity<Product> findById(@RequestParam String id) {
         Product product = service.findById(id);
         return ResponseEntity.ok(product);
     }
+
     @GetMapping("/hi")
-    public String sayHi(){
+    public String sayHi() {
         return "Hi there!";
     }
 }

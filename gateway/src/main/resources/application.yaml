@@ -25,7 +25,7 @@ spring:
             - id: cart
               uri: http://localhost:8082
               predicates:
-                - Path=/hi
+                - Path=/cart/**
               filters:
                 - TokenRelay=
             - id: product

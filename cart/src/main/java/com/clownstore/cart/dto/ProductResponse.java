@@ -3,7 +3,8 @@ package com.clownstore.cart.dto;
 import java.math.BigDecimal;
 
 public record ProductResponse(
-        String userId,
+        String id,
+        String name,
         BigDecimal price,
         int stock
 ) {
