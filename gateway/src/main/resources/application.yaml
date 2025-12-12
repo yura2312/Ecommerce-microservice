@@ -34,3 +34,9 @@ spring:
                 - Path=/product/**
               filters:
                 - TokenRelay=
+            - id: order
+              uri: http://localhost:8083
+              predicates:
+                - Path=/order/**
+              filters:
+                - TokenRelay=
