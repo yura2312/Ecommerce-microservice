@@ -19,7 +19,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(Customizer.withDefaults())
                 .oauth2ResourceServer(c-> c.jwt(Customizer.withDefaults()))
-                .csrf(c->c.disable());
+                .csrf(c->c.spa());
         return http.build();
     }
 }
