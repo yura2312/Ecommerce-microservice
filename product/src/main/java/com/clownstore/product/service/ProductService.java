@@ -1,5 +1,6 @@
 package com.clownstore.product.service;
 
+import com.clownstore.product.dto.ProductRequest;
 import com.clownstore.product.exception.ProductExistsException;
 import com.clownstore.product.exception.ProductNotFoundException;
 import com.clownstore.product.model.Product;
@@ -20,11 +21,13 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public Product save(Product product){
+    public Product save(ProductRequest productRequest){
+        Product product = toProduct(productRequest);
         Optional<Product> productExists = repository.findByNameContaining(product.getName());
         if(productExists.isPresent()){
             throw new ProductExistsException("Product already exists");
         }
+
             return repository.save(product);
     }
 
@@ -54,4 +57,15 @@ public class ProductService {
         return repository.findById(id)
                 .orElseThrow( () -> new ProductNotFoundException("Product with id " + id + " not found"));
     }
+
+    private Product toProduct(ProductRequest request){
+        return Product.builder()
+                .name(request.name())
+                .price((request.price()))
+                .stock(request.stock())
+                .description(request.description())
+                .attributes(request.attributes())
+                .build();
+    }
 }
+

@@ -1,5 +1,6 @@
 package com.clownstore.product.controller;
 
+import com.clownstore.product.dto.ProductRequest;
 import com.clownstore.product.model.Product;
 import com.clownstore.product.service.ProductService;
 import jakarta.validation.Valid;
@@ -18,21 +19,21 @@ public class MainController {
         this.service = service;
     }
 
-    @GetMapping("{name}")
+    @GetMapping
     public ResponseEntity<Product> findByName(@RequestParam String name) {
         var product = service.findByName(name);
         return ResponseEntity.ok(product);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Product> save(@RequestBody @Valid Product productRequest) {
+    public ResponseEntity<Product> save(@RequestBody @Valid ProductRequest productRequest) {
         var product = service.save(productRequest);
         return ResponseEntity.ok(product);
     }
 
-    @DeleteMapping("/{name}")
-    public ResponseEntity<Void> delete(@PathVariable String name) {
-        service.deleteById(name);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -42,8 +43,8 @@ public class MainController {
         return ResponseEntity.ok(productList);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<Product> findById(@RequestParam String id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> findById(@PathVariable String id) {
         Product product = service.findById(id);
         return ResponseEntity.ok(product);
     }

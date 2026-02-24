@@ -1,5 +1,6 @@
 package com.clownstore.product;
 
+import com.clownstore.product.dto.ProductRequest;
 import com.clownstore.product.exception.ProductExistsException;
 import com.clownstore.product.model.Product;
 import com.clownstore.product.repository.ProductRepository;
@@ -35,8 +36,8 @@ class ProductApplicationTests {
 	@Test
 	@DisplayName("Test if duplicated products can save")
 	void test1() {
-		Product mock = new Product("abc","Coffe", BigDecimal.TEN, 10, "dark coffe", Map.of("origin", "arabic"));
-		when(repository.findByNameContaining(mock.getName())).thenReturn(Optional.of(mock));
+		ProductRequest mock = new ProductRequest("Coffe", BigDecimal.TEN, 10, "dark coffe", Map.of("origin", "arabic"));
+		when(repository.findByNameContaining(mock.name())).thenReturn(Optional.empty());
 		assertThrows(ProductExistsException.class, ()-> service.save(mock));
 
 		verify(repository, never()).save(any(Product.class));
@@ -52,6 +53,6 @@ class ProductApplicationTests {
 
 		verify(repository).save(mock);
 
-		assertEquals(BigDecimal.ONE, mock.getPrice());
+		assertThat(mock.getPrice()).isEqualTo(BigDecimal.ONE);
 	}
 }
