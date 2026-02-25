@@ -37,7 +37,7 @@ class ProductApplicationTests {
 	@DisplayName("Test if duplicated products can save")
 	void test1() {
 		ProductRequest mock = new ProductRequest("Coffe", BigDecimal.TEN, 10, "dark coffe", Map.of("origin", "arabic"));
-		when(repository.findByNameContaining(mock.name())).thenReturn(Optional.empty());
+		when(repository.findByNameContaining(mock.name())).thenReturn(Optional.of(new Product()));
 		assertThrows(ProductExistsException.class, ()-> service.save(mock));
 
 		verify(repository, never()).save(any(Product.class));
@@ -46,13 +46,12 @@ class ProductApplicationTests {
 	@Test
 	@DisplayName("Test if a saved entity updates price by name")
 	void test2(){
-		Product mock = new Product("abc","Coffe", BigDecimal.TEN, 10, "dark coffe", Map.of("origin", "arabic"));
+		Product mock = Product.builder().name("Coffe").price(BigDecimal.TEN).build();
 		when(repository.findByNameContaining(mock.getName())).thenReturn(Optional.of(mock));
 
 		service.updatePriceByName(BigDecimal.ONE, mock.getName());
 
-		verify(repository).save(mock);
-
 		assertThat(mock.getPrice()).isEqualTo(BigDecimal.ONE);
+		verify(repository).save(mock);
 	}
 }
