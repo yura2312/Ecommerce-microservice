@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CartService {
@@ -71,5 +72,9 @@ public class CartService {
 
     public List<Cart> findAll(){
         return (List<Cart>) repository.findAll();
+    }
+
+    public void deleteCartByUserId(String userId) {
+        repository.findById(userId).ifPresent(repository::delete);
     }
 }

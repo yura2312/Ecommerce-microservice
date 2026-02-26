@@ -1,6 +1,7 @@
 package com.clownstore.order.mapper;
 
 import com.clownstore.order.dto.CartResponse;
+import com.clownstore.order.kafka.OrderCreatedEvent;
 import com.clownstore.order.model.Order;
 import com.clownstore.order.model.Status;
 
@@ -22,5 +23,17 @@ public class OrderMapper {
 
         order.getItems().forEach(item -> item.setOrder(order));
         return order;
+    }
+
+    public static OrderCreatedEvent createOrderEventFrom(Order order) {
+        return OrderCreatedEvent.builder()
+                .id(order.getId())
+                .userId(order.getUserId())
+                .items(
+                        order.getItems().stream()
+                                .map(OrderItemMapper::craeteOrderItemPayloadFrom)
+                                .toList()
+                )
+                .build();
     }
 }

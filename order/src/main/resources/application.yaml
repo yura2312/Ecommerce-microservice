@@ -22,7 +22,20 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:9000/realms/clownstore/protocol/openid-connect/certs
-
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+        spring.json.type.mapping: "StockReservedEvent:com.clownstore.order.kafka.StockReservedEvent"
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        spring.json.type.mapping: "OrderCreatedEvent:com.clownstore.order.kafka.OrderCreatedEvent"
 
 server:
   port: 8083

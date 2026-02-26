@@ -10,7 +10,7 @@ import java.util.Map;
 @Builder
 public record ProductRequest(
         @NotBlank String name,
-        @NotBlank BigDecimal price,
+        @NotNull BigDecimal price,
         @NotNull int stock,
         @NotBlank String description,
         @NotNull Map<String, String> attributes

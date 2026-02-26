@@ -21,7 +21,7 @@ public class OrderController {
     public ResponseEntity<Order> save(@AuthenticationPrincipal Jwt jwt) {
         String userId = jwt.getSubject();
 
-        Order order = service.save(userId);
+        Order order = service.createOrder(userId);
         return ResponseEntity.ok(order);
     }
 
@@ -31,5 +31,11 @@ public class OrderController {
 
         service.delete(userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Order> get(@AuthenticationPrincipal Jwt jwt) {
+        String userId = jwt.getSubject();
+        return ResponseEntity.ok(service.getOrder(userId));
     }
 }
