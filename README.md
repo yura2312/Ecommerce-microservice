@@ -141,7 +141,7 @@ All requests should be made through the Gateway (default port `8080`).
 
 ## Event Driven with Kafka
 
-Whenever a Order `POST /order/save` makes a request a event is produced -> Product service consumes it, locks in the product stock and sends a event -> Order and Cart service consumes it, confirming the order and cleaning the user's cart
+Whenever a Order `POST /order/save` receives a request a event is produced -> Product service consumes it, locks the product stock and sends a event -> Order and Cart service consumes it, confirming the order and cleaning the user's cart.
 
 ## Database & Migrations
 

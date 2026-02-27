@@ -136,7 +136,7 @@ Todas as requisições devem ser feitas através do Gateway (porta padrão `8080
 
 ## Mensageria com Kafka
 
-Toda vez que ha um Pedido `POST /order/save` um evento eh disparado -> O servico de Produto consome o evento, fazendo uma reserva do estoque e dispara outro evento ->  Os servicos do Carrinho e Pedido consomem ele, confirmando a ordem ordem e limpando o carrinho do cliente.
+Toda vez que há uma requisição para Pedido POST /order/save, um evento é disparado -> O serviço de Produto consome o evento, fazendo uma reserva do estoque e dispara outro evento -> Os serviços de Carrinho e Pedido consomem-no, confirmando a ordem e limpando o carrinho do cliente.
 
 
 ## Banco de Dados e Migrações
