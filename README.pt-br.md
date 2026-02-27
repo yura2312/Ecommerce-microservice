@@ -134,6 +134,11 @@ Todas as requisições devem ser feitas através do Gateway (porta padrão `8080
 * `POST /order/save` - Converte o carrinho do usuário atual em um pedido.
 * `DELETE /order/` - Deleta o histórico de pedidos do usuário.
 
+## Mensageria com Kafka
+
+Toda vez que ha um Pedido `POST /order/save` um evento eh disparado -> O servico de Produto consome o evento, fazendo uma reserva do estoque e dispara outro evento ->  Os servicos do Carrinho e Pedido consomem ele, confirmando a ordem ordem e limpando o carrinho do cliente.
+
+
 ## Banco de Dados e Migrações
 
 * **Order Service:** Usa **Flyway** para migrações de banco de dados. O esquema inclui as tabelas `orders` e `order_item`.

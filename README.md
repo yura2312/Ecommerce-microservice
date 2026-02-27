@@ -25,6 +25,7 @@ The system consists of a centralized Gateway that routes requests to specific mi
     * Redis (Carts)
 * **Security:** Keycloak, Spring Security, OAuth2 Client and Resource Server
 * **Communication:** Spring Cloud OpenFeign
+* **Event Communication**: Spring for ApacheKafka 
 * **Tools:** Docker Compose, Flyway, Lombok.
 
 ## 🚀 Getting Started
@@ -50,19 +51,26 @@ This will start:
 * **Redis** on port `6379`
 * **MongoDB** on port `27017`
 * **PostgreSQL** on port `5432`
+* **Kafka** on port `9092`
 
 ### 2. Keycloak Configuration
 
 Since the project depends on Keycloak for authentication, you must configure the realm manually or import a configuration:
 
+#### Option 1:
 1. Access Keycloak at `http://localhost:9000`.
 2. Login with `admin` / `admin`.
 3. Create a realm named **`clownstore`**.
 4. Create a client named **`spring-security-keycloak`**.
+5. Create a user for testing.
 * **Client Authentication:** On
-* **Valid Redirect URIs:** `http://localhost:8080/login/oauth2/code/keycloak`
+* **Valid Redirect URIs:** `http://localhost:8080/*`
 * **Authorization Grant Type:** Authorization Code
-
+#### Option 2: 
+1. Access Keycloak at `http://localhost:9000`.
+2. Login with `admin` / `admin`.
+3. Create realm and import `realm-export.json`
+4. Generate client secret
 
 5. Create a user for testing.
 
@@ -130,6 +138,10 @@ All requests should be made through the Gateway (default port `8080`).
 
 * `POST /order/save` - Convert current user's cart into an order.
 * `DELETE /order/` - Delete order history for user.
+
+## Event Driven with Kafka
+
+Whenever a Order `POST /order/save` makes a request a event is produced -> Product service consumes it, locks in the product stock and sends a event -> Order and Cart service consumes it, confirming the order and cleaning the user's cart
 
 ## Database & Migrations
 
